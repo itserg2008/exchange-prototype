@@ -19,7 +19,7 @@ Functionally, the application has 2 main sections:
 docker-compose --env-file env.dev up --build
 ```
 
-Once all the containers are started, please open [http://localhost](http://localhost)
+Once all the containers are started, please open [http://localhost](http://localhost) to interact with exchange form.
 
 Administrator page is available at [http://localhost/transactions](http://localhost/transactions)
 
