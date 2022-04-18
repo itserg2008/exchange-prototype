@@ -15,7 +15,14 @@ Functionally, the application has 2 main sections:
 
 ## How to run
 
+```
 docker-compose --env-file env.dev up --build
+```
+
+Once all the containers are started, please open [http://localhost](http://localhost)
+
+Administrator page is available at [http://localhost/transactions](http://localhost/transactions)
+
 
 ### Container parameters
 
@@ -28,6 +35,4 @@ docker-compose --env-file env.dev up --build
 - DB_DATABASE - exchange database name
 - DB_HOST=localhost - database address
 
-Once all the containers are started, please open [http://localhost](http://localhost)
 
-Administrator page is available at [http://localhost/transactions](http://localhost)
