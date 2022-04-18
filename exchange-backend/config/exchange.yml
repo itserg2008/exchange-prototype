@@ -1,0 +1,16 @@
+default: &default
+  auth_username: <%= ENV["AUTH_USERNAME"] %>
+  auth_password: <%= ENV["AUTH_PASSWORD"] %>
+  btc_funding_private_key: <%= ENV["BTC_FUNDING_PRIVATE_KEY"] %>
+  exchange_fee_percent: 3,
+  miners_fee_satoshis: 600,
+  max_changed_amount: 30
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

@@ -1,0 +1,67 @@
+<div>
+  
+    <div class="ec-box">
+
+<mat-card fxLayout="column">
+    <mat-card-title>Checkout</mat-card-title>
+    <mat-card-content>
+        <table style="width: 100%;">
+            <tr>
+                <td>You send</td> 
+                <td>You get</td>                  
+            </tr>
+
+            <tr>
+                <td><b>{{ sendAmount }} USDT</b></td> 
+                <td><b>~ {{ receiveAmount }} BTC</b></td>                  
+            </tr>
+
+            <tr>
+                <td>blockchain: omni layer</td> 
+                <td>blockchain: bitcoin</td>                  
+            </tr>
+
+            <tr>
+                <td></td> 
+                <td></td>                  
+            </tr>
+
+            <tr>
+                <td>Exchange fee</td> 
+                <td>Network fee</td>                  
+            </tr>
+
+            <tr>
+                <td><b>~ {{ exchangeFee | number:'1.1-8' }} BTC</b></td> 
+                <td><b> {{ networkFee | number:'1.1-8' }} BTC</b></td>                  
+            </tr>
+
+            <tr>
+                <td></td> 
+                <td></td>                  
+            </tr>
+                        
+            <tr>
+                <td>Recipient address</td> 
+                <td>Exchange rate</td>                  
+            </tr>
+            
+            <tr>
+                <td><b>{{ address }}</b></td> 
+                <td><b>1 USDT ~ {{ exchangeRate | number:'1.1-8' }} BTC</b></td>                  
+            </tr>     
+            
+            <tr>
+                <td>Transaction ID</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td><a href="https://blockstream.info/testnet/tx/{{ txId }}">{{ txId | slice:0:20}}...</a></td>
+                <td></td>
+            </tr>
+        </table>
+    </mat-card-content>
+</mat-card>
+</div>
+</div>

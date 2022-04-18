@@ -1,0 +1,37 @@
+version: '3.2'
+services:
+  exchange-frontend:
+    build: exchange-frontend/.
+    ports:
+      - "80:80"
+    environment:
+      - API_URL=http://exchange-backend:3000
+    depends_on:
+      - exchange-backend
+  exchange-backend:
+    restart: always
+    build: exchange-backend/.
+    command: bash -c "bin/rake db:migrate && bin/bundle exec rails s -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_HOST=exchange-db
+      - BTC_FUNDING_PRIVATE_KEY=${BTC_FUNDING_PRIVATE_KEY}
+      - AUTH_USERNAME=${AUTH_USERNAME}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
+    depends_on:
+      - exchange-db
+  exchange-db:
+    ports:
+      - '5434:5432'
+    build: './db'
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
