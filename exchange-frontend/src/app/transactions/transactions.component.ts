@@ -12,15 +12,15 @@ import { Router } from '@angular/router';
 })
 export class TransactionsComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'txid', 'email', 'from_currency', 'to_currency', 'sent_amount', 'received_amount', 'address', 'exchange_fee','status'];
+  displayedColumns: string[] = ['id', 'txid', 'email', 'from_currency', 'to_currency', 'sent_amount', 'received_amount', 'address', 'exchange_fee', 'status'];
   dataSource = [] as Transaction[];
   statInfo: StatInfo;
 
-  constructor(private transactionsService: TransactionsService, private authService: AuthService, private router: Router) { 
+  constructor(private transactionsService: TransactionsService, private authService: AuthService, private router: Router) {
     this.statInfo = {
-      total_exchange_fee : 0,
-      total_success_transactions : 0,
-      total_transactions : 0
+      total_exchange_fee: 0,
+      total_success_transactions: 0,
+      total_transactions: 0
     }
   }
 
@@ -34,7 +34,7 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  logout(): void {    
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

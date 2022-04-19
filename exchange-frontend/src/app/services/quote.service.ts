@@ -9,11 +9,11 @@ export class QuoteService {
 
   QUOTE_ENDPOINT = 'https://api.huobi.pro/market/detail/merged?symbol=btcusdt';
 
-  constructor(private http: HttpClient) {     
+  constructor(private http: HttpClient) {
   }
 
   getQuote(): Observable<any> {
-    return this.http.get(this.QUOTE_ENDPOINT);  
+    return this.http.get(this.QUOTE_ENDPOINT);
   }
 
 }

@@ -13,7 +13,7 @@ export class AuthService {
 
   userAuth: UserAuth = new UserAuth;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     const userDataLocalStorage = localStorage.getItem('user');
     if (userDataLocalStorage != null) {
       this.userAuth = JSON.parse(userDataLocalStorage);
@@ -22,11 +22,11 @@ export class AuthService {
 
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${environment.apiUrl}/v1/auth/login`, { username, password }).pipe(map(response => {
-      if (response.success) {        
+      if (response.success) {
         this.userAuth.username = username
-        this.userAuth.password = password;      
+        this.userAuth.password = password;
         localStorage.setItem('user', JSON.stringify(this.userAuth));
-      }  
+      }
       return response.success;
     }));
   }

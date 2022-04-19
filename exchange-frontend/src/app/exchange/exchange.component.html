@@ -1,5 +1,4 @@
 <div>
-  
   <div class="ec-box">
     <form fxLayout="column" [formGroup]="exchangeForm" (ngSubmit)="onSubmit()">
 
@@ -8,75 +7,78 @@
         <mat-card-content fxLayout="column">
           <div>
             <mat-form-field fxFlex="80">
-                <mat-label>You send</mat-label>
-                <input matInput placeholder="You send" formControlName="sendAmount" (keyup)="onYouSendInputKeyPress()"/>
-                <mat-error *ngIf="exchangeForm.get('sendAmount')?.errors?.['maxValueExceeded']">Maximum amount to change is 30  USDT</mat-error>              
-              </mat-form-field>
-    
-              <span fxFlex="5"></span>
+              <mat-label>You send</mat-label>
+              <input matInput placeholder="You send" formControlName="sendAmount" (keyup)="onYouSendInputKeyPress()" />
+              <mat-error *ngIf="exchangeForm.get('sendAmount')?.errors?.['maxValueExceeded']">Maximum amount to change
+                is 30 USDT</mat-error>
+            </mat-form-field>
 
-              <mat-form-field fxFlex="15">
-                <mat-label>Currency</mat-label>
-                <select matNativeControl required formControlName="fromCurrency">
-                  <option value="USDT" [selected]="true">USDT</option>
-                </select>                
-              </mat-form-field>          
+            <span fxFlex="5"></span>
+
+            <mat-form-field fxFlex="15">
+              <mat-label>Currency</mat-label>
+              <select matNativeControl required formControlName="fromCurrency">
+                <option value="USDT" [selected]="true">USDT</option>
+              </select>
+            </mat-form-field>
           </div>
 
           <p>1 USDT ~ {{ btcusdt | number:'1.1-8'}} BTC. </p>
-  
-          <div>
-              <mat-form-field fxFlex="80" >
-                  <mat-label>You get</mat-label>
-                  <input matInput placeholder="You get" formControlName="getAmount" step="0.00000001" (keyup)="onYouGetInputKeyPress()"/>
-                </mat-form-field>   
-      
-                <span fxFlex="5"></span>
 
-                <mat-form-field fxFlex="15">
-                  <mat-label>Currency</mat-label>
-                  <select matNativeControl required formControlName="toCurrency">
-                    <option value="BTC" [selected]="true">BTC</option>
-                  </select>
-                </mat-form-field>             
+          <div>
+            <mat-form-field fxFlex="80">
+              <mat-label>You get</mat-label>
+              <input matInput placeholder="You get" formControlName="getAmount" step="0.00000001"
+                (keyup)="onYouGetInputKeyPress()" />
+            </mat-form-field>
+
+            <span fxFlex="5"></span>
+
+            <mat-form-field fxFlex="15">
+              <mat-label>Currency</mat-label>
+              <select matNativeControl required formControlName="toCurrency">
+                <option value="BTC" [selected]="true">BTC</option>
+              </select>
+            </mat-form-field>
           </div>
-    
+
         </mat-card-content>
       </mat-card>
-      
+
       <mat-card>
         <mat-card-content>
-          <div>Exchange fee {{ exchangeFeePercent }}%  - {{ exchangeFee | number:'1.1-8'}} BTC</div>
+          <div>Exchange fee {{ exchangeFeePercent }}% - {{ exchangeFee | number:'1.1-8'}} BTC</div>
           <div>Network fee {{ getMinersFee() }} BTC </div>
           <div>Estimated arrival 5-30 minutes </div>
         </mat-card-content>
       </mat-card>
-  
+
 
       <mat-card>
         <mat-card-title>Wallet address</mat-card-title>
         <mat-card-content>
           <div fxLayout="column">
 
-          <mat-form-field fxFlex="100">
-            <mat-label>Recipient address</mat-label>
-            <input matInput placeholder="Enter your BTC recipient address" formControlName="address">
-            <mat-error *ngIf="exchangeForm.get('address')?.errors?.['wrongAddress']">Invalid BTC address</mat-error>              
-          </mat-form-field>             
+            <mat-form-field fxFlex="100">
+              <mat-label>Recipient address</mat-label>
+              <input matInput placeholder="Enter your BTC recipient address" formControlName="address">
+              <mat-error *ngIf="exchangeForm.get('address')?.errors?.['wrongAddress']">Invalid BTC address</mat-error>
+            </mat-form-field>
 
-          <mat-form-field fxFlex="100">
-            <mat-label>E-mail</mat-label>
-            <input matInput placeholder="Enter your e-mail" formControlName="email">
-          </mat-form-field>             
-        </div>
+            <mat-form-field fxFlex="100">
+              <mat-label>E-mail</mat-label>
+              <input matInput placeholder="Enter your e-mail" formControlName="email">
+            </mat-form-field>
+          </div>
         </mat-card-content>
       </mat-card>
-                  
+
       <mat-card fxLayout="column">
-        <mat-checkbox [(ngModel)]="acceptPolicies" [ngModelOptions]="{standalone: true}">I agree with Tearms of Use, Privacy Policy and AML/KYC </mat-checkbox>
-        <button color="primary" mat-raised-button type="submit" [disabled]="!acceptPolicies">Exchange</button>        
-        <mat-error *ngFor="let err of backendErrors">{{ err }}</mat-error>  
+        <mat-checkbox [(ngModel)]="acceptPolicies" [ngModelOptions]="{standalone: true}">I agree with Tearms of Use,
+          Privacy Policy and AML/KYC </mat-checkbox>
+        <button color="primary" mat-raised-button type="submit" [disabled]="!acceptPolicies">Exchange</button>
+        <mat-error *ngFor="let err of backendErrors">{{ err }}</mat-error>
       </mat-card>
-  </form>  
+    </form>
   </div>
 </div>

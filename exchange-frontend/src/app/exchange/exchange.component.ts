@@ -13,12 +13,12 @@ import { btcAddressValidatorAsync } from '../validators/btc-address-validator';
   styleUrls: ['./exchange.component.scss']
 })
 export class ExchangeComponent implements OnInit {
-  
+
   constructor(
-              private fb: FormBuilder,
-              private router: Router,
-              private quoteService: QuoteService,
-               private exchangeService: ExchangeService) { }
+    private fb: FormBuilder,
+    private router: Router,
+    private quoteService: QuoteService,
+    private exchangeService: ExchangeService) { }
 
   exchangeForm = this.fb.group({
     fromCurrency: ['USDT', Validators.required],
@@ -27,8 +27,8 @@ export class ExchangeComponent implements OnInit {
     getAmount: ['', Validators.required],
     address: ['', Validators.required, btcAddressValidatorAsync()],
     email: ['', Validators.email]
-  });             
-  
+  });
+
   backendErrors = [];
   usdtbtc: number = 0.0;
   btcusdt: number = 0.0;
@@ -44,44 +44,44 @@ export class ExchangeComponent implements OnInit {
   ngOnInit(): void {
 
     this.exchangeService.getSettings().subscribe((data: any) => {
-        this.exchangeFeePercent = data.exchange_fee_percent;        
-        this.minersFeeSatoshis = data.miners_fee_satoshis;        
-        this.maxChangedAmount = data.max_changed_amount;
+      this.exchangeFeePercent = data.exchange_fee_percent;
+      this.minersFeeSatoshis = data.miners_fee_satoshis;
+      this.maxChangedAmount = data.max_changed_amount;
     });
 
     this.quoteService.getQuote()
-    .subscribe((data: any)=> {
+      .subscribe((data: any) => {
         this.usdtbtc = data.tick.close;
         this.btcusdt = 1 / this.usdtbtc;
-    });    
+      });
   }
 
   getMinersFee() {
     return this.minersFeeSatoshis / 100000000;
   }
 
-  onYouSendInputKeyPress() {       
+  onYouSendInputKeyPress() {
     const amountReceivedBtc = this.exchangeService.getActualAmountReceived(parseFloat(this.exchangeForm.get('sendAmount')?.value), this.btcusdt, this.exchangeFeePercent, this.getMinersFee())
-    this.exchangeForm.get('getAmount')?.setValue(amountReceivedBtc.toFixed(this.DECIMALS_BTC));   
+    this.exchangeForm.get('getAmount')?.setValue(amountReceivedBtc.toFixed(this.DECIMALS_BTC));
     this.updateExchangeFee();
   }
 
-  onYouGetInputKeyPress() {       
+  onYouGetInputKeyPress() {
     const amountShouldBeSent = this.exchangeService.getSendAmountByReceived(parseFloat(this.exchangeForm.get('getAmount')?.value), this.btcusdt, this.exchangeFeePercent, this.getMinersFee())
-    this.exchangeForm.get('sendAmount')?.setValue(amountShouldBeSent.toFixed(this.DECIMALS_USDT));   
+    this.exchangeForm.get('sendAmount')?.setValue(amountShouldBeSent.toFixed(this.DECIMALS_USDT));
   }
 
   updateExchangeFee() {
-    this.exchangeFee = this.exchangeFeePercent * this.exchangeForm.get('getAmount')?.value / 100;     
+    this.exchangeFee = this.exchangeFeePercent * this.exchangeForm.get('getAmount')?.value / 100;
   }
 
-  onSubmit() {   
+  onSubmit() {
     if (!this.exchangeForm.valid) {
       return;
     }
     const sendAmount = parseFloat(this.exchangeForm.get('sendAmount')?.value.toString())
 
-    const request : ExchangeRequest = { 
+    const request: ExchangeRequest = {
       from_currency: this.exchangeForm.get('fromCurrency')?.value,
       sent_amount: sendAmount,
       to_currency: this.exchangeForm.get('toCurrency')?.value,
@@ -89,21 +89,21 @@ export class ExchangeComponent implements OnInit {
       address: this.exchangeForm.get('address')?.value,
       email: this.exchangeForm.get('email')?.value
     };
-        
-    this.exchangeService.exchange(request).subscribe((result : any) => {
+
+    this.exchangeService.exchange(request).subscribe((result: any) => {
       const navigationExtras: NavigationExtras = {
-          state: {
-            sendAmount: sendAmount,
-            receiveAmount: this.exchangeForm.get('getAmount')?.value,
-            exchangeFee: this.exchangeFee,
-            networkFee: this.getMinersFee(),
-            address: request.address,
-            exchangeRate: this.btcusdt,
-            txId: result.tx_id            
-          }
-        };
-                
-        this.router.navigate(['/checkout'], navigationExtras);    
+        state: {
+          sendAmount: sendAmount,
+          receiveAmount: this.exchangeForm.get('getAmount')?.value,
+          exchangeFee: this.exchangeFee,
+          networkFee: this.getMinersFee(),
+          address: request.address,
+          exchangeRate: this.btcusdt,
+          txId: result.tx_id
+        }
+      };
+
+      this.router.navigate(['/checkout'], navigationExtras);
     }, errorResponse => {
       this.backendErrors = errorResponse.error.errors;
       console.log(this.backendErrors);
