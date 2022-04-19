@@ -46,10 +46,14 @@ class ExchangeService
     convert_to_satoshis(user_received_amount)
   end
 
+  def exchange_fee_satoshis
+    convert_to_satoshis(exchange_fee)
+  end
+
   def call
     tx_service.get_address_info(key.addr)
 
-    if tx_service.balance < (user_received_satoshis + exchange_fee + config.miners_fee_satoshis)
+    if tx_service.balance < (user_received_satoshis + exchange_fee_satoshis + config.miners_fee_satoshis)
       save_transaction('', exchange_fee, user_received_amount, address, :FAILED)
       return Dry::Monads::Failure(['Insufficient exchange balance'])
     end
